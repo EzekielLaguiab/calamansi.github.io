@@ -401,6 +401,14 @@ input:disabled {
     </div>
 </form>
 
+<div id="values">
+	<h3>Reccommend</h3>
+	<div>
+		asdad
+	</div>
+
+</div>
+
 <div class="hidden">
 	<label class="header__label" for="model">Model</label>
 	<input class="input" type="text" id="model" />
@@ -427,6 +435,7 @@ $(function() {
 var infer = function() {
 	$('#output').html("Inferring...");
 	$("#resultContainer").show();
+	$("#values").show();
 	$('html').scrollTop(100000);
 
 	getSettingsFromForm(function(settings) {
