@@ -308,7 +308,7 @@ input:disabled {
 <body>
 <form id="inputForm">
     <div class="header">
-			<div>Calamansi leaf disease identifier</div>
+			<h1>Calamansi Leaf Disease Identifier</h1>
 			<!-- <img class="header__logo" src="assets/Cal.jpg" alt="calamansi leaf"> -->
 			
 
@@ -435,7 +435,6 @@ $(function() {
 var infer = function() {
 	$('#output').html("Inferring...");
 	$("#resultContainer").show();
-	// $("#values").show();
 	$('html').scrollTop(100000);
 
 	getSettingsFromForm(function(settings) {
@@ -457,6 +456,12 @@ var infer = function() {
 				pretty.html(formatted);
 				$('#output').html("").append(pretty);
 				$('html').scrollTop(100000);
+
+				$('#output').append("<p>Recommendation: Implement proper watering practices, </p>");
+				$('#output').append("<p>ensure adequate sunlight, and </p>");
+				$('#output').append("<p>regularly inspect plants for signs of disease or pests.</p>");
+				$('#output').append("<p>Consider using organic pesticides or fungicides if necessary. </p>");
+
 			} else {
 				var arrayBufferView = new Uint8Array(response);
 				var blob = new Blob([arrayBufferView], {
@@ -470,6 +475,14 @@ var infer = function() {
 				};
 				img.attr('src', base64image);
 				$('#output').html("").append(img);
+
+				$('#output').append("<p>Recommendation:  </p>");
+				$('#output').append("<p>Implement proper watering practices,</p>");
+				$('#output').append("<p>ensure adequate sunlight, and </p>");
+				$('#output').append("<p>regularly inspect plants for signs of disease or pests.</p>");
+				$('#output').append("<p>Consider using organic pesticides or fungicides if necessary.</p>");
+
+				// $('#output').append("<p>Recommendation: Implement proper watering practices, ensure adequate sunlight, and regularly inspect plants for signs of disease or pests. Consider using organic pesticides or fungicides if necessary.</p>");
 			}
 		});
 	});
