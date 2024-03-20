@@ -452,14 +452,11 @@ var infer = function() {
                 var result = JSON.parse(response);
 
                 // Check if disease is detected
-                var hasDisease = result && result.disease;
+                var hasDisease = none;
 
                 if (hasDisease) {
-                    // Display disease information
-                    $('#output').html("Disease detected: " + result.disease);
-                    // Here you can add additional logic to display specific recommendations
-                    // based on the detected disease
-                    displayRecommendations(result.disease);
+                    // Display recommendation to prevent disease
+                    $('#output').html("Disease detected. Here are some recommendations to prevent it.");
                 } else {
                     // Display message indicating good health
                     $('#output').html("No disease detected. Your plant is in good health.");
@@ -481,24 +478,6 @@ var infer = function() {
         });
     });
 };
-
-// Function to display recommendations based on the detected disease
-function displayRecommendations(disease) {
-    // You can implement recommendations based on the detected disease here
-    // For example:
-    switch (disease) {
-        case "Powdery Mildew":
-            $('#output').append("<br>Recommendation: Apply a fungicide specifically formulated for powdery mildew. Remove and destroy heavily infected leaves.");
-            break;
-        case "Black Spot":
-            $('#output').append("<br>Recommendation: Prune infected leaves and treat with a fungicide labeled for black spot.");
-            break;
-        // Add more cases for other diseases as needed
-        default:
-            $('#output').append("<br>No specific recommendation available for this disease.");
-            break;
-    }
-}
 
 var retrieveDefaultValuesFromLocalStorage = function() {
 	try {
