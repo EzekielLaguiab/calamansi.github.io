@@ -449,36 +449,31 @@ var infer = function() {
 			].join("\n"));
 		};
 
-			$.ajax(settings).then(function(response) {
-			if (settings.format == "json") {
+		$.ajax(settings).then(function(response) {
+			if(settings.format == "json") {
 				var pretty = $('<pre>');
-				var formatted = JSON.stringify(response, null, 4);
+				var formatted = JSON.stringify(response, null, 4)
 
-				// Extracting label name from the JSON response
-				var label = response.label; // Replace 'label' with the actual key where the label name is located in your JSON response
-
-				// Displaying label name along with the inference result
-				$('#output').html("").append([
-					"<strong>Inference Result:</strong> " + label, // Display label name
-					"<br>",
-					"<strong>Recommendation:</strong> " + getRecommendation(label) // Display recommendation based on label
-				].join("\n"));
+				pretty.html(formatted);
+				$('#output').html("").append(pretty);
 				$('html').scrollTop(100000);
 			} else {
-				// Your existing code to display image
+				var arrayBufferView = new Uint8Array(response);
+				var blob = new Blob([arrayBufferView], {
+					'type': 'image\/jpeg'
+				});
+				var base64image = window.URL.createObjectURL(blob);
+
+				var img = $('<img/>');
+				img.get(0).onload = function() {
+					$('html').scrollTop(100000);
+				};
+				img.attr('src', base64image);
+				$('#output').html("").append(img);
 			}
 		});
 	});
 };
-
-function getRecommendation(label) {
-    // Set criteria for good and bad results
-    if (label === "Good") {
-        return "Good health";
-    } else {
-        return "Not good. Consider taking action.";
-    }
-}
 
 var retrieveDefaultValuesFromLocalStorage = function() {
 	try {
