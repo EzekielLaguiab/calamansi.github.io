@@ -401,13 +401,13 @@ input:disabled {
     </div>
 </form>
 
-<div id="values">
+<!-- <div id="values">
 	<h3>Reccommend</h3>
 	<div>
 		asdad
 	</div>
 
-</div>
+</div> -->
 
 <div class="hidden">
 	<label class="header__label" for="model">Model</label>
@@ -433,47 +433,72 @@ $(function() {
 });
 
 var infer = function() {
-	$('#output').html("Inferring...");
-	$("#resultContainer").show();
-	$("#values").show();
-	$('html').scrollTop(100000);
+    $('#output').html("Inferring...");
+    $("#resultContainer").show();
+    $('html').scrollTop(100000);
 
-	getSettingsFromForm(function(settings) {
-		settings.error = function(xhr) {
-			$('#output').html("").append([
-				"Error loading response.",
-				"",
-				"Check your internet connection"
-				
-				
-			].join("\n"));
-		};
+    getSettingsFromForm(function(settings) {
+        settings.error = function(xhr) {
+            $('#output').html("").append([
+                "Error loading response.",
+                "",
+                "Check your internet connection"
+            ].join("\n"));
+        };
 
-		$.ajax(settings).then(function(response) {
-			if(settings.format == "json") {
-				var pretty = $('<pre>');
-				var formatted = JSON.stringify(response, null, 4)
+        $.ajax(settings).then(function(response) {
+            if (settings.format == "json") {
+                // Parse JSON response
+                var result = JSON.parse(response);
 
-				pretty.html(formatted);
-				$('#output').html("").append(pretty);
-				$('html').scrollTop(100000);
-			} else {
-				var arrayBufferView = new Uint8Array(response);
-				var blob = new Blob([arrayBufferView], {
-					'type': 'image\/jpeg'
-				});
-				var base64image = window.URL.createObjectURL(blob);
+                // Check if disease is detected
+                var hasDisease = result && result.disease;
 
-				var img = $('<img/>');
-				img.get(0).onload = function() {
-					$('html').scrollTop(100000);
-				};
-				img.attr('src', base64image);
-				$('#output').html("").append(img);
-			}
-		});
-	});
+                if (hasDisease) {
+                    // Display disease information
+                    $('#output').html("Disease detected: " + result.disease);
+                    // Here you can add additional logic to display specific recommendations
+                    // based on the detected disease
+                    displayRecommendations(result.disease);
+                } else {
+                    // Display message indicating good health
+                    $('#output').html("No disease detected. Your plant is in good health.");
+                }
+            } else {
+                var arrayBufferView = new Uint8Array(response);
+                var blob = new Blob([arrayBufferView], {
+                    'type': 'image\/jpeg'
+                });
+                var base64image = window.URL.createObjectURL(blob);
+
+                var img = $('<img/>');
+                img.get(0).onload = function() {
+                    $('html').scrollTop(100000);
+                };
+                img.attr('src', base64image);
+                $('#output').html("").append(img);
+            }
+        });
+    });
 };
+
+// Function to display recommendations based on the detected disease
+function displayRecommendations(disease) {
+    // You can implement recommendations based on the detected disease here
+    // For example:
+    switch (disease) {
+        case "Powdery Mildew":
+            $('#output').append("<br>Recommendation: Apply a fungicide specifically formulated for powdery mildew. Remove and destroy heavily infected leaves.");
+            break;
+        case "Black Spot":
+            $('#output').append("<br>Recommendation: Prune infected leaves and treat with a fungicide labeled for black spot.");
+            break;
+        // Add more cases for other diseases as needed
+        default:
+            $('#output').append("<br>No specific recommendation available for this disease.");
+            break;
+    }
+}
 
 var retrieveDefaultValuesFromLocalStorage = function() {
 	try {
