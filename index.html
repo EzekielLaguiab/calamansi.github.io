@@ -433,51 +433,52 @@ $(function() {
 });
 
 var infer = function() {
-    $('#output').html("Inferring...");
-    $("#resultContainer").show();
-    $('html').scrollTop(100000);
+	$('#output').html("Inferring...");
+	$("#resultContainer").show();
+	// $("#values").show();
+	$('html').scrollTop(100000);
 
-    getSettingsFromForm(function(settings) {
-        settings.error = function(xhr) {
-            $('#output').html("").append([
-                "Error loading response.",
-                "",
-                "Check your internet connection"
-            ].join("\n"));
-        };
+	getSettingsFromForm(function(settings) {
+		settings.error = function(xhr) {
+			$('#output').html("").append([
+				"Error loading response.",
+				"",
+				"Check your internet connection"
+				
+				
+			].join("\n"));
+		};
 
-        $.ajax(settings).then(function(response) {
-            if (settings.format == "json") {
-                // Parse JSON response
-                var result = JSON.parse(response);
+			$.ajax(settings).then(function(response) {
+			if (settings.format == "json") {
+				var pretty = $('<pre>');
+				var formatted = JSON.stringify(response, null, 4);
 
-                // Check if disease is detected
-                var hasDisease = none;
+				// Extracting label name from the JSON response
+				var label = response.label; // Replace 'label' with the actual key where the label name is located in your JSON response
 
-                if (hasDisease) {
-                    // Display recommendation to prevent disease
-                    $('#output').html("Disease detected. Here are some recommendations to prevent it.");
-                } else {
-                    // Display message indicating good health
-                    $('#output').html("No disease detected. Your plant is in good health.");
-                }
-            } else {
-                var arrayBufferView = new Uint8Array(response);
-                var blob = new Blob([arrayBufferView], {
-                    'type': 'image\/jpeg'
-                });
-                var base64image = window.URL.createObjectURL(blob);
-
-                var img = $('<img/>');
-                img.get(0).onload = function() {
-                    $('html').scrollTop(100000);
-                };
-                img.attr('src', base64image);
-                $('#output').html("").append(img);
-            }
-        });
-    });
+				// Displaying label name along with the inference result
+				$('#output').html("").append([
+					"<strong>Inference Result:</strong> " + label, // Display label name
+					"<br>",
+					"<strong>Recommendation:</strong> " + getRecommendation(label) // Display recommendation based on label
+				].join("\n"));
+				$('html').scrollTop(100000);
+			} else {
+				// Your existing code to display image
+			}
+		});
+	});
 };
+
+function getRecommendation(label) {
+    // Set criteria for good and bad results
+    if (label === "Good") {
+        return "Good health";
+    } else {
+        return "Not good. Consider taking action.";
+    }
+}
 
 var retrieveDefaultValuesFromLocalStorage = function() {
 	try {
@@ -662,17 +663,6 @@ var resizeImage = function(base64Str) {
 };
 
 </script>
-
-<style>
-#codepenLink {
-	position: fixed;
-	bottom:0;
-	right: 0;
-}
-#codepenLink img {
-	height: 48px;
-}
-</style>
 
 <script src="/infer.e52137ed1b27e0a86d5a.js"></script></body>
 </html>
