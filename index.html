@@ -457,10 +457,9 @@ var infer = function() {
 				$('#output').html("").append(pretty);
 				$('html').scrollTop(100000);
 
-				$('#output').append("<p>Recommendation: Implement proper watering practices, </p>");
-				$('#output').append("<p>ensure adequate sunlight, and </p>");
-				$('#output').append("<p>regularly inspect plants for signs of disease or pests.</p>");
-				$('#output').append("<p>Consider using organic pesticides or fungicides if necessary. </p>");
+				$('#output').append("<p>Recommendation:</p>");
+				$('#output').append("<p>Good Health</p>");
+
 
 			} else {
 				var arrayBufferView = new Uint8Array(response);
@@ -477,12 +476,15 @@ var infer = function() {
 				$('#output').html("").append(img);
 
 				$('#output').append("<p>Recommendation:  </p>");
-				$('#output').append("<p>Implement proper watering practices,</p>");
-				$('#output').append("<p>ensure adequate sunlight, and </p>");
-				$('#output').append("<p>regularly inspect plants for signs of disease or pests.</p>");
-				$('#output').append("<p>Consider using organic pesticides or fungicides if necessary.</p>");
+				$('#output').append("<p>Implement proper watering</p>");
+				$('#output').append("<p>practices, ensure adequate</p>");
+				$('#output').append("<p>sunlight, and regularly</p>");
+				$('#output').append("<p>inspect plants for signs</p>");
+				$('#output').append("<p>of disease or pests.</p>");
+				$('#output').append("<p>Consider using organic</p>");
+				$('#output').append("<p>pesticides or fungicides</p>");
+				$('#output').append("<p>if necessary.</p>");
 
-				// $('#output').append("<p>Recommendation: Implement proper watering practices, ensure adequate sunlight, and regularly inspect plants for signs of disease or pests. Consider using organic pesticides or fungicides if necessary.</p>");
 			}
 		});
 	});
