@@ -57,9 +57,11 @@ span.icon {
 }
 
 .header {
-	background-color: white;
+	background-color: #606FC7;
+	color: white;
 	padding: 1rem;
-	padding-bottom: 2.5rem;
+	padding-bottom: 1rem;
+	font-size: 30px;
 }
 
 .header__grid {
@@ -387,7 +389,7 @@ input:disabled {
                 </div>
             </div>
             <div class="col-12">
-                <button type="submit" value="Run Inference" class="bttn__primary">Run Inference</button>
+                <button type="submit" value="Run Inference" class="bttn__primary">Run Identifier</button>
             </div>
         </div>
         <div class="result" id="resultContainer">
@@ -433,7 +435,7 @@ $(function() {
 });
 
 var infer = function() {
-	$('#output').html("Inferring...");
+	$('#output').html("Please Wait...");
 	$("#resultContainer").show();
 	$('html').scrollTop(100000);
 
@@ -456,10 +458,6 @@ var infer = function() {
 				pretty.html(formatted);
 				$('#output').html("").append(pretty);
 				$('html').scrollTop(100000);
-
-				$('#output').append("<p>Recommendation:</p>");
-				$('#output').append("<p>Good Health</p>");
-
 
 			} else {
 				var arrayBufferView = new Uint8Array(response);
