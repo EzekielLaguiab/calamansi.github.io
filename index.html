@@ -338,6 +338,18 @@ input:disabled {
                 <input style="display: none;" type="file" id="file" />
             </div>
 
+			<div class="col-12-m8" id="fileSelectionContainer">
+                <label class="input__label" for="file">Take a picture</label>
+                <div class="flex">
+					
+                    <input class="input input--left flex-1" type="text" id="fileName" disabled />
+					<button id="cameraButton" class="bttn right active">Camera</button>
+                </div>
+                <input style="display: none;" type="file" id="file" accept="image/*">
+            </div>
+			<div>
+				
+			</div>
             <div class="col-12-m8" id="urlContainer">
                 <label class="input__label" for="file">Enter Image URL</label>
                 <div class="flex">
@@ -508,6 +520,68 @@ input:disabled {
 	<label class="header__label" for="api_key">API Key</label>
 	<input class="input" type="text" id="api_key" />
 </div>
+
+
+<script type="text/javascript">
+	$(function() {
+		// Set up button listeners
+		setupButtonListeners();
+	});
+	
+	var setupButtonListeners = function() {
+		// Listen for click event on the camera button
+		$('#cameraButton').click(function() {
+			// Request access to the camera
+			navigator.mediaDevices.getUserMedia({ video: true })
+				.then(function(stream) {
+					var video = document.createElement('video');
+					// Display the video stream in a new video element
+					document.body.appendChild(video);
+					video.srcObject = stream;
+					video.play();
+	
+					// Create a canvas element to capture the image
+					var canvas = document.createElement('canvas');
+					canvas.width = video.videoWidth;
+					canvas.height = video.videoHeight;
+	
+					// Draw the video frame onto the canvas
+					var ctx = canvas.getContext('2d');
+					ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+	
+					// Convert the canvas image to base64
+					var base64image = canvas.toDataURL('image/jpeg');
+	
+					// Call a function to handle the captured image (e.g., display, upload, etc.)
+					handleCapturedImage(base64image);
+	
+					// Stop the video stream
+					stream.getTracks().forEach(function(track) {
+						track.stop();
+					});
+	
+					// Remove the video element and canvas
+					video.remove();
+					canvas.remove();
+				})
+				.catch(function(error) {
+					console.error('Error accessing camera:', error);
+				});
+		});
+	};
+	
+	// Function to handle the captured image
+	var handleCapturedImage = function(base64image) {
+		// Display the captured image (e.g., set it as the source of an img element)
+		var img = document.createElement('img');
+		img.src = base64image;
+		document.body.appendChild(img);
+	
+		// Now you can use the captured image as needed (e.g., display, upload, etc.)
+	};
+	</script>
+
+
 
 <script type="text/javascript">
 $(function() {
