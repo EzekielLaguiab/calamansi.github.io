@@ -363,7 +363,7 @@ input:disabled {
                 <div>
                     <i class="fas fa-object-ungroup hidden"></i>
                     <span class="icon">%</span>
-                    <input type="number" id="overlap" value="30" max="100" accuracy="2" min="0" class="input input__icon"/></div>
+                    <input type="number" id="overlap" value="0" max="100" accuracy="2" min="0" class="input input__icon"/></div>
             </div>
             <div class="col-6-m3 hidden" id="format">
                 <label class="input__label">Inference Result</label>
@@ -664,6 +664,7 @@ var getSettingsFromForm = function(cb) {
 
 		var stroke = $('#stroke .active').attr('data-value');
 		if(stroke) parts.push("&stroke=" + stroke);
+		
 
 		settings.xhr = function() {
 			var override = new XMLHttpRequest();
